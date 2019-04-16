@@ -16,6 +16,7 @@ public class JsonUtils {
             throws JSONException {
 
         final String RESULTS = "results";
+        final String MOVIE_ID = "id";
         final String POSTER_PATH = "poster_path";
         final String OVERVIEW = "overview";
         final String RELEASE_DATE = "release_date";
@@ -30,13 +31,14 @@ public class JsonUtils {
         for (int i=0; i < resultsArray.length(); i++){
             JSONObject results = resultsArray.getJSONObject(i);
 
+            int movieID = results.getInt(MOVIE_ID);
             String originalTitle = results.getString(ORIGINAL_TITLE);
             String overview = results.getString(OVERVIEW);
             String releaseDate = results.getString(RELEASE_DATE);
             String posterPath = results.getString(POSTER_PATH);
             double voteAverage = results.getDouble(VOTE_AVERAGE);
 
-            MovieModel movieModel = new MovieModel(originalTitle, overview, releaseDate, posterPath, voteAverage);
+            MovieModel movieModel = new MovieModel(movieID, originalTitle, overview, releaseDate, posterPath, voteAverage);
             movieModelList.add(movieModel);
 
         }

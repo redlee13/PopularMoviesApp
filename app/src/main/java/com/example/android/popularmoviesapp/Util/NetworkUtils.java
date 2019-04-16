@@ -31,6 +31,7 @@ public final class NetworkUtils {
     /* The page number we want our API to return */
     public static int displayPage = 1;
 
+    private final static String MOVIE_PARAM = "videos?";
     private final static String API_PARAM = "api_key";
     private final static String LANG_PARAM = "language";
     private final static String PAGE_PARAM = "page";
