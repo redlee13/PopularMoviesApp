@@ -3,10 +3,14 @@ package com.example.android.popularmoviesapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Movie implements Parcelable {
+import androidx.room.Entity;
+
+@Entity
+public class MovieModel implements Parcelable {
 
 
 
+    private int mMovieId;
     private String mTitle;
     private String mOverview;
     private String mReleaseDate;
@@ -14,7 +18,8 @@ public class Movie implements Parcelable {
     private double mVotes;
 
 
-    protected Movie(Parcel in) {
+    protected MovieModel(Parcel in) {
+        mMovieId = in.readInt();
         mTitle = in.readString();
         mOverview = in.readString();
         mReleaseDate = in.readString();
@@ -22,15 +27,15 @@ public class Movie implements Parcelable {
         mVotes = in.readDouble();
     }
 
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+    public static final Creator<MovieModel> CREATOR = new Creator<MovieModel>() {
         @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
+        public MovieModel createFromParcel(Parcel in) {
+            return new MovieModel(in);
         }
 
         @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
+        public MovieModel[] newArray(int size) {
+            return new MovieModel[size];
         }
     };
 
@@ -41,6 +46,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mMovieId);
         parcel.writeString(mTitle);
         parcel.writeString(mOverview);
         parcel.writeString(mReleaseDate);
@@ -48,12 +54,17 @@ public class Movie implements Parcelable {
         parcel.writeDouble(mVotes);
     }
 
-    public Movie(String title, String overview, String releaseDate, String posterPath, double voteAverage) {
+    public MovieModel(int movieId, String title, String overview, String releaseDate, String posterPath, double voteAverage) {
+        mMovieId = movieId;
         mTitle = title;
         mOverview = overview;
         mReleaseDate = releaseDate;
         mPosterPath = posterPath;
         mVotes = voteAverage;
+    }
+
+    public int getMovieId() {
+        return mMovieId;
     }
 
     public String getTitle() {

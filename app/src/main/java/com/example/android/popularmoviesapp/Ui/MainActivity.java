@@ -1,31 +1,42 @@
-package com.example.android.popularmoviesapp;
+package com.example.android.popularmoviesapp.Ui;
 
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.popularmoviesapp.Constants;
+import com.example.android.popularmoviesapp.GridAutofitLayoutManager;
+import com.example.android.popularmoviesapp.Util.JsonUtils;
+import com.example.android.popularmoviesapp.MovieModel;
+import com.example.android.popularmoviesapp.MovieAdapter;
+import com.example.android.popularmoviesapp.Util.NetworkUtils;
+import com.example.android.popularmoviesapp.R;
+
 import java.net.URL;
 import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    RecyclerView movieRecyclerGrid;
+    @BindView(R.id.recycler_view) RecyclerView movieRecyclerGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        movieRecyclerGrid = findViewById(R.id.recycler_view);
-        GridLayoutManager manager = new GridAutofitLayoutManager(this, 540);
+        ButterKnife.bind(this);
 
+        GridLayoutManager manager = new GridAutofitLayoutManager(this, 540);
 
         movieRecyclerGrid.setLayoutManager(manager);
         new JsonTask().execute();
@@ -46,26 +57,31 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.highest_rated){
-            NetworkUtils.baseUrl = Constants.BASE_URL_TOP_RATED;
-        } else if (item.getItemId() == R.id.most_popular){
-            NetworkUtils.baseUrl = Constants.BASE_URL_POPULAR;
-        } else if (item.getItemId() == R.id.next_page){
-            NetworkUtils.displayPage++;
-        } else if (item.getItemId() == R.id.previous_page && NetworkUtils.displayPage != 1){
-            NetworkUtils.displayPage--;
+        switch (item.getItemId()){
+            case R.id.highest_rated:
+                NetworkUtils.baseUrl = Constants.BASE_URL_TOP_RATED;
+                break;
+            case R.id.most_popular:
+                NetworkUtils.baseUrl = Constants.BASE_URL_POPULAR;
+                break;
+            case R.id.next_page:
+                NetworkUtils.displayPage++;
+                break;
+            case R.id.previous_page:
+                NetworkUtils.displayPage--;
+                break;
         }
         Log.d(TAG, "onOptionsItemSelected: " + NetworkUtils.displayPage);
         new JsonTask().execute();
         return false;
     }
 
-    private class JsonTask extends AsyncTask<String, Void, ArrayList<Movie>> {
+    private class JsonTask extends AsyncTask<String, Void, ArrayList<MovieModel>> {
 
         private static final String TAG = "JsonTask";
 
         @Override
-        protected ArrayList<Movie> doInBackground(String... params) {
+        protected ArrayList<MovieModel> doInBackground(String... params) {
             try {
                 URL url = NetworkUtils.buildUrl();
                 String response = NetworkUtils.getResponseFromHttpUrl(url);
@@ -80,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Movie> json) {
+        protected void onPostExecute(ArrayList<MovieModel> json) {
             if (json != null){
                 MovieAdapter movieAdapter = new MovieAdapter(MainActivity.this, json);
                 movieRecyclerGrid.setAdapter(movieAdapter);
