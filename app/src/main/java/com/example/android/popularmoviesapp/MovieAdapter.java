@@ -2,25 +2,29 @@ package com.example.android.popularmoviesapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
+import com.example.android.popularmoviesapp.Ui.DetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    private ArrayList<Movie> mMovieData;
+    private ArrayList<MovieModel> mMovieModelData;
     Context context;
     private AdapterView.OnItemClickListener mClickListener;
 
-    public MovieAdapter(Context context, ArrayList<Movie> movieData) {
-        this.mMovieData = movieData;
+    public MovieAdapter(Context context, ArrayList<MovieModel> movieModelData) {
+        this.mMovieModelData = movieModelData;
         this.context = context;
     }
 
@@ -33,26 +37,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        final Movie image = mMovieData.get(position);
+        final MovieModel image = mMovieModelData.get(position);
         Picasso.get().load(Constants.POSTER_BASE_URL + image.getPosterPath()).into(viewHolder.mImageView);
     }
 
     @Override
     public int getItemCount() {
-        return mMovieData.size();
+        return mMovieModelData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mImageView;
+        @BindView(R.id.iv_recycler_item) ImageView mImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.iv_recycler_item);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra(Intent.EXTRA_TEXT, mMovieData.get(getAdapterPosition()));
+                    intent.putExtra(Intent.EXTRA_TEXT, mMovieModelData.get(getAdapterPosition()));
                     context.startActivity(intent);
                 }
             });

@@ -1,4 +1,6 @@
-package com.example.android.popularmoviesapp;
+package com.example.android.popularmoviesapp.Util;
+
+import com.example.android.popularmoviesapp.MovieModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,10 +12,11 @@ public class JsonUtils {
     private static final String TAG = "JsonUtils";
 
 
-    public static ArrayList<Movie> getJsonMovieList(String jsonMovieString)
+    public static ArrayList<MovieModel> getJsonMovieList(String jsonMovieString)
             throws JSONException {
 
         final String RESULTS = "results";
+        final String MOVIE_ID = "id";
         final String POSTER_PATH = "poster_path";
         final String OVERVIEW = "overview";
         final String RELEASE_DATE = "release_date";
@@ -22,26 +25,25 @@ public class JsonUtils {
 
         JSONObject movieJson = new JSONObject(jsonMovieString);
 
-        // TODO later, if there is an error or no internet
-
         JSONArray resultsArray = movieJson.getJSONArray(RESULTS);
 
-        ArrayList<Movie> movieList = new ArrayList<>();
+        ArrayList<MovieModel> movieModelList = new ArrayList<>();
         for (int i=0; i < resultsArray.length(); i++){
             JSONObject results = resultsArray.getJSONObject(i);
 
+            int movieID = results.getInt(MOVIE_ID);
             String originalTitle = results.getString(ORIGINAL_TITLE);
             String overview = results.getString(OVERVIEW);
             String releaseDate = results.getString(RELEASE_DATE);
             String posterPath = results.getString(POSTER_PATH);
             double voteAverage = results.getDouble(VOTE_AVERAGE);
 
-            Movie movie = new Movie(originalTitle, overview, releaseDate, posterPath, voteAverage);
-            movieList.add(movie);
+            MovieModel movieModel = new MovieModel(movieID, originalTitle, overview, releaseDate, posterPath, voteAverage);
+            movieModelList.add(movieModel);
 
         }
 
-        return movieList;
+        return movieModelList;
     }
 
 

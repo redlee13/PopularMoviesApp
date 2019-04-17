@@ -1,7 +1,10 @@
-package com.example.android.popularmoviesapp;
+package com.example.android.popularmoviesapp.Util;
 
 import android.net.Uri;
 import android.util.Log;
+
+import com.example.android.popularmoviesapp.BuildConfig;
+import com.example.android.popularmoviesapp.Constants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +31,7 @@ public final class NetworkUtils {
     /* The page number we want our API to return */
     public static int displayPage = 1;
 
+    private final static String MOVIE_PARAM = "videos?";
     private final static String API_PARAM = "api_key";
     private final static String LANG_PARAM = "language";
     private final static String PAGE_PARAM = "page";
