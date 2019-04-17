@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class JsonTask extends AsyncTask<String, Void, ArrayList<MovieModel>> {
-
         private static final String TAG = "JsonTask";
 
         @Override
@@ -85,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 URL url = NetworkUtils.buildUrl();
                 String response = NetworkUtils.getResponseFromHttpUrl(url);
-                Log.d(TAG, "doInBackground: " + response);
                 return JsonUtils.getJsonMovieList(response);
-
 
             } catch (Exception e){
                 e.printStackTrace();

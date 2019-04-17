@@ -17,12 +17,9 @@ import java.util.Scanner;
  * These utilities will be used to communicate with the weather servers.
  */
 public final class NetworkUtils {
-
     private static final String TAG = "NetworkUtils";
 
     public static String baseUrl = Constants.BASE_URL_POPULAR;
-
-
 
     /* The API KEY we want to enter */
     private static final String API_KEY = BuildConfig.ApiKey;
@@ -31,7 +28,7 @@ public final class NetworkUtils {
     /* The page number we want our API to return */
     public static int displayPage = 1;
 
-    private final static String MOVIE_PARAM = "videos?";
+    private final static String MOVIE_PARAM = "videos";
     private final static String API_PARAM = "api_key";
     private final static String LANG_PARAM = "language";
     private final static String PAGE_PARAM = "page";
@@ -50,9 +47,38 @@ public final class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         Log.v(TAG, "Built URI " + url);
+        return url;
+    }
 
+    public static URL buildTrailerUrl(String trailerID) {
+        Uri builtUri = Uri.parse(Constants.BASE_URL_TRAILER).buildUpon()
+                .appendPath(trailerID)
+                .appendPath(MOVIE_PARAM)
+                .appendQueryParameter(API_PARAM, API_KEY)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Log.v(TAG, "Built URI " + url);
+        return url;
+    }
+    public static URL buildYoutubeUrl(String youtubeKey){
+        Uri builtUri = Uri.parse(Constants.YOUTUBE_BASE_URL).buildUpon()
+                .appendPath(youtubeKey)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Log.v(TAG, "Built URI " + url);
         return url;
     }
 

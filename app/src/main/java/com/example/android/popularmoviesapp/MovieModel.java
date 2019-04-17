@@ -9,14 +9,12 @@ import androidx.room.Entity;
 public class MovieModel implements Parcelable {
 
 
-
     private int mMovieId;
     private String mTitle;
     private String mOverview;
     private String mReleaseDate;
     private String mPosterPath;
     private double mVotes;
-
 
     protected MovieModel(Parcel in) {
         mMovieId = in.readInt();
@@ -63,6 +61,7 @@ public class MovieModel implements Parcelable {
         mVotes = voteAverage;
     }
 
+
     public int getMovieId() {
         return mMovieId;
     }
@@ -86,4 +85,5 @@ public class MovieModel implements Parcelable {
     public double getVotes() {
         return mVotes;
     }
+
 }
