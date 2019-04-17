@@ -1,18 +1,12 @@
 package com.example.android.popularmoviesapp.Ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmoviesapp.Constants;
-import com.example.android.popularmoviesapp.GridAutofitLayoutManager;
 import com.example.android.popularmoviesapp.MovieModel;
 import com.example.android.popularmoviesapp.R;
 import com.example.android.popularmoviesapp.TrailerAdapter;
@@ -25,7 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,8 +50,8 @@ public class DetailActivity extends AppCompatActivity {
         overview.setText(mMovieModel.getOverview());
         voteAverage.setText(mMovieModel.getVotes() + "/10");
 
-        GridLayoutManager gridLayoutManager = new GridAutofitLayoutManager(this, 500);
-        mRecyclerViewGrid.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerViewGrid.setLayoutManager(layoutManager);
 
         new TrailerTask().execute(mMovieModel.getMovieId() + "");
     }

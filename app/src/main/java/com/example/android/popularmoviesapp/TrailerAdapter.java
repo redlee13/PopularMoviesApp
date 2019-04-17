@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.example.android.popularmoviesapp.Ui.DetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,14 +32,15 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_item, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.trailer_item_layout, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         final TrailerModel thumbnail = mTrailerModelData.get(position);
-        Picasso.get().load("https://img.youtube.com/vi/" + mTrailerModelData.get(position).getmVideoKey() + "/default.jpg").into(viewHolder.mImageView);
+        Picasso.get().load("https://img.youtube.com/vi/" + thumbnail.getmVideoKey() + "/default.jpg").into(viewHolder.mImageView);
+        viewHolder.mTextView.setText(mTrailerModelData.get(position).getmVideoTitle());
     }
 
     @Override
@@ -48,7 +49,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_recycler_item) ImageView mImageView;
+        @BindView(R.id.iv_trailer) ImageView mImageView;
+        @BindView(R.id.tv_trailer_name) TextView mTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
