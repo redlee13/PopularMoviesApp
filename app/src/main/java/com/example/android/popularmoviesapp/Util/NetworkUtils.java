@@ -29,6 +29,7 @@ public final class NetworkUtils {
     public static int displayPage = 1;
 
     private final static String MOVIE_PARAM = "videos";
+    private final static String REVIEW_PARAM = "reviews";
     private final static String API_PARAM = "api_key";
     private final static String LANG_PARAM = "language";
     private final static String PAGE_PARAM = "page";
@@ -52,7 +53,7 @@ public final class NetworkUtils {
     }
 
     public static URL buildTrailerUrl(String trailerID) {
-        Uri builtUri = Uri.parse(Constants.BASE_URL_TRAILER).buildUpon()
+        Uri builtUri = Uri.parse(Constants.BASE_URL).buildUpon()
                 .appendPath(trailerID)
                 .appendPath(MOVIE_PARAM)
                 .appendQueryParameter(API_PARAM, API_KEY)
@@ -67,9 +68,11 @@ public final class NetworkUtils {
         Log.v(TAG, "Built URI " + url);
         return url;
     }
-    public static URL buildYoutubeUrl(String youtubeKey){
-        Uri builtUri = Uri.parse(Constants.YOUTUBE_BASE_URL).buildUpon()
-                .appendPath(youtubeKey)
+    public static URL buildReviewUrl(String movieID){
+        Uri builtUri = Uri.parse(Constants.BASE_URL).buildUpon()
+                .appendPath(movieID)
+                .appendPath(REVIEW_PARAM)
+                .appendQueryParameter(API_PARAM, API_KEY)
                 .build();
 
         URL url = null;

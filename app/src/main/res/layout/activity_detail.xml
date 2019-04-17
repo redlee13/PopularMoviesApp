@@ -69,10 +69,11 @@
             android:layout_marginTop="50dp"
             android:layout_marginEnd="8dp"
             android:text="@string/release_date"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/poster"
-            app:layout_constraintTop_toBottomOf="@+id/movie_title" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_title"/>
 
         <TextView
             android:id="@+id/textView6"
@@ -82,10 +83,11 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:text="@string/average_rating"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/poster"
-            app:layout_constraintTop_toBottomOf="@+id/release_date" />
+            app:layout_constraintTop_toBottomOf="@+id/release_date"/>
 
         <ScrollView
             android:id="@+id/scrollView2"
@@ -110,7 +112,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/overview"
-                    android:textStyle="bold" />
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/overview"
@@ -133,26 +136,49 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/trailers"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+            app:layout_constraintTop_toBottomOf="@+id/scrollView2"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trailers_recycler"
             android:layout_width="match_parent"
-            android:layout_height="266.66dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/trailers">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/reviews"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/trailers_recycler"
+            app:layout_constraintTop_toBottomOf="@+id/trailers_recycler"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviews_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -1,4 +1,4 @@
-package com.example.android.popularmoviesapp;
+package com.example.android.popularmoviesapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmoviesapp.Constants;
+import com.example.android.popularmoviesapp.R;
+import com.example.android.popularmoviesapp.Models.TrailerModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,7 +24,6 @@ import butterknife.ButterKnife;
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
     private ArrayList<TrailerModel> mTrailerModelData;
     Context context;
-    private AdapterView.OnItemClickListener mClickListener;
 
     public TrailerAdapter(Context context, ArrayList<TrailerModel> trailerModelData) {
         this.mTrailerModelData = trailerModelData;

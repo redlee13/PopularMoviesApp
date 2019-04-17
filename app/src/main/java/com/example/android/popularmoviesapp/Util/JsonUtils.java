@@ -2,18 +2,15 @@ package com.example.android.popularmoviesapp.Util;
 
 import android.util.Log;
 
-import com.example.android.popularmoviesapp.Constants;
-import com.example.android.popularmoviesapp.MovieModel;
-import com.example.android.popularmoviesapp.TrailerModel;
+import com.example.android.popularmoviesapp.Models.MovieModel;
+import com.example.android.popularmoviesapp.Models.ReviewModel;
+import com.example.android.popularmoviesapp.Models.TrailerModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
-
-import retrofit2.http.Url;
 
 public class JsonUtils {
     private static final String TAG = "JsonUtils";
@@ -68,6 +65,27 @@ public class JsonUtils {
             movieVideoList.add(trailerModel);
         }
         return movieVideoList;
+    }
+
+    public static ArrayList<ReviewModel> getJsonReviewList(String jsonReviewString)
+            throws JSONException{
+        final String RESULTS = "results";
+        final String AUTHOR = "author";
+        final String CONTENT = "content";
+
+        JSONObject movieJson = new JSONObject(jsonReviewString);
+        JSONArray resultsArray = movieJson.getJSONArray(RESULTS);
+        ArrayList<ReviewModel> reviews = new ArrayList<>();
+        for (int i=0; i < resultsArray.length(); i++){
+            JSONObject results = resultsArray.getJSONObject(i);
+
+            String author = results.getString(AUTHOR);
+            String content = results.getString(CONTENT);
+
+            ReviewModel reviewModel = new ReviewModel(author,content);
+            reviews.add(reviewModel);
+        }
+        return reviews;
     }
 
 

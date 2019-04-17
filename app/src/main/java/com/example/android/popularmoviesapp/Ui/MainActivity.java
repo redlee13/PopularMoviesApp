@@ -10,8 +10,8 @@ import android.view.MenuItem;
 import com.example.android.popularmoviesapp.Constants;
 import com.example.android.popularmoviesapp.GridAutofitLayoutManager;
 import com.example.android.popularmoviesapp.Util.JsonUtils;
-import com.example.android.popularmoviesapp.MovieModel;
-import com.example.android.popularmoviesapp.MovieAdapter;
+import com.example.android.popularmoviesapp.Models.MovieModel;
+import com.example.android.popularmoviesapp.Adapters.MovieAdapter;
 import com.example.android.popularmoviesapp.Util.NetworkUtils;
 import com.example.android.popularmoviesapp.R;
 

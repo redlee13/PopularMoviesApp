@@ -1,13 +1,15 @@
-package com.example.android.popularmoviesapp;
+package com.example.android.popularmoviesapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 
+import com.example.android.popularmoviesapp.Constants;
+import com.example.android.popularmoviesapp.Models.MovieModel;
+import com.example.android.popularmoviesapp.R;
 import com.example.android.popularmoviesapp.Ui.DetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +23,6 @@ import butterknife.ButterKnife;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     private ArrayList<MovieModel> mMovieModelData;
     Context context;
-    private AdapterView.OnItemClickListener mClickListener;
 
     public MovieAdapter(Context context, ArrayList<MovieModel> movieModelData) {
         this.mMovieModelData = movieModelData;
