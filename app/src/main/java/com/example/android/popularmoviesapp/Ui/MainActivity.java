@@ -1,25 +1,28 @@
 package com.example.android.popularmoviesapp.Ui;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.android.popularmoviesapp.Constants;
-import com.example.android.popularmoviesapp.GridAutofitLayoutManager;
-import com.example.android.popularmoviesapp.MovieViewModel;
-import com.example.android.popularmoviesapp.Util.JsonUtils;
-import com.example.android.popularmoviesapp.Models.MovieModel;
 import com.example.android.popularmoviesapp.Adapters.MovieAdapter;
-import com.example.android.popularmoviesapp.Util.NetworkUtils;
+import com.example.android.popularmoviesapp.GridAutofitLayoutManager;
+import com.example.android.popularmoviesapp.Models.MovieModel;
+import com.example.android.popularmoviesapp.MovieViewModel;
 import com.example.android.popularmoviesapp.R;
+import com.example.android.popularmoviesapp.Util.JsonUtils;
+import com.example.android.popularmoviesapp.Util.NetworkUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -32,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     @BindView(R.id.recycler_view) RecyclerView movieRecyclerGrid;
-    private MovieViewModel viewModel;
-    private List<MovieModel> movieList;
+    MovieViewModel viewModel;
+    private ArrayList<MovieModel> movieList;
     private MovieAdapter movieAdapter;
 
     @Override
@@ -48,18 +51,37 @@ public class MainActivity extends AppCompatActivity {
         movieRecyclerGrid.setLayoutManager(manager);
         new JsonTask().execute();
 
-        viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
-    }
+        movieList = new ArrayList<>();
+        movieAdapter = new MovieAdapter(this , movieList);
+        movieRecyclerGrid.setAdapter(movieAdapter);
 
-    private void favoriteLoader(){
-        viewModel.getMovies(true, null).observe(this, new Observer<List<MovieModel>>() {
-            @Override
-            public void onChanged(List<MovieModel> movieModels) {
-                movieList.clear();
-                movieList.addAll(movieModels);
-                movieAdapter.notifyDataSetChanged();
-            }
-        });
+        viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+
+        if (getSort().equals(getString(R.string.pref_fav))) {
+
+            viewModel.getMovies(true, null).observe(this, new Observer<List<MovieModel>>() {
+                @Override
+                public void onChanged(@Nullable List<MovieModel> movieModels) {
+                    movieList.clear();
+
+                    if (movieModels != null) {
+                        movieList.addAll(movieModels);
+                        movieAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+
+        } else {
+            viewModel.getMovies(false, NetworkUtils.buildUrl()).observe(this, new Observer<List<MovieModel>>() {
+                @Override
+                public void onChanged(@Nullable List<MovieModel> movieModels) {
+                    movieList.clear();
+                    movieList.addAll(movieModels);
+                    movieAdapter.notifyDataSetChanged();
+                }
+            });
+
+        }
 
     }
 
@@ -79,25 +101,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.highest_rated:
-                NetworkUtils.baseUrl = Constants.BASE_URL_TOP_RATED;
-                break;
-            case R.id.most_popular:
-                NetworkUtils.baseUrl = Constants.BASE_URL_POPULAR;
-                break;
             case R.id.next_page:
                 NetworkUtils.displayPage++;
                 break;
             case R.id.previous_page:
                 NetworkUtils.displayPage--;
                 break;
-            case R.id.favorites:
-                favoriteLoader();
-                break;
+            case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
         }
         Log.d(TAG, "onOptionsItemSelected: " + NetworkUtils.displayPage);
-        new JsonTask().execute();
-        return false;
+        return true;
     }
 
     private class JsonTask extends AsyncTask<String, Void, ArrayList<MovieModel>> {
@@ -123,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
                 movieRecyclerGrid.setAdapter(movieAdapter);
             }
         }
+    }
+
+    private String getSort(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString(getString(R.string.sort_by_key), getString(R.string.pref_popular));
     }
 
 }

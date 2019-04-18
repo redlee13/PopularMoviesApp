@@ -14,10 +14,10 @@ public interface MovieDAO {
     void insertMovie(MovieModel movieModel);
 
     @Query("DELETE FROM MovieModel WHERE mMovieId =:id")
-    void deleteMovie(int id);
+    void deleteMovie(String id);
 
     @Query("Select * from MovieModel WHERE mMovieId = :id")
-    MovieModel getSingleMovie (int id);
+    MovieModel getSingleMovie (String id);
 
     @Query("Select * from MovieModel")
     List<MovieModel> getAllMovies();

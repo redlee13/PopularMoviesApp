@@ -12,4 +12,11 @@
     <string name="trailers">Trailers</string>
     <string name="reviews">Reviews</string>
     <string name="favorites">Favorite list</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <string name="sort_by_key" translatable="false">sort_by_key</string>
+    <string name="pref_top_rated" translatable="false">pref_top_rated</string>
+    <string name="pref_popular" translatable="false">pref_popular</string>
+    <string name="pref_fav" translatable="false">pref_fav</string>
 </resources>

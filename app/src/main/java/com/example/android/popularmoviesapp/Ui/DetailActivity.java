@@ -3,7 +3,6 @@ package com.example.android.popularmoviesapp.Ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +35,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private MovieModel mMovieModel;
     private FarvoriteMovieWorker worker = new FarvoriteMovieWorker(this);
+    private Boolean clicked = false;
 
     @BindView(R.id.movie_title)
     TextView movieName;
@@ -51,6 +51,8 @@ public class DetailActivity extends AppCompatActivity {
     RecyclerView mRecyclerViewGrid;
     @BindView(R.id.reviews_recycler)
     RecyclerView mRecyclerView;
+    @BindView(R.id.floatingActionButton)
+    FloatingActionButton heartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class DetailActivity extends AppCompatActivity {
         releaseDate.setText(mMovieModel.getReleaseDate());
         Picasso.get().load(Constants.POSTER_BASE_URL + mMovieModel.getPosterPath()).into(poster);
         overview.setText(mMovieModel.getOverview());
-        voteAverage.setText(mMovieModel.getVotes() + "/10");
+        voteAverage.setText(mMovieModel.getVotes());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerViewGrid.setLayoutManager(layoutManager);
@@ -74,10 +76,13 @@ public class DetailActivity extends AppCompatActivity {
         new TrailerTask().execute(mMovieModel.getMovieId() + "");
         new ReviewTask().execute(mMovieModel.getMovieId()+ "");
 
-        if (savedInstanceState == null) {
-
-        }
-
+        heartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SingleMovieTask().execute(mMovieModel);
+                clicked = true;
+            }
+        });
     }
 
     private void markFavorite(MovieModel movie){
@@ -85,6 +90,35 @@ public class DetailActivity extends AppCompatActivity {
     }
     private void unmarkFavorite(MovieModel movie){
         worker.deleteFavMovie(movie);
+    }
+
+    private class SingleMovieTask extends AsyncTask<MovieModel, Void, MovieModel>{
+        @Override
+        protected MovieModel doInBackground(MovieModel... movieModels) {
+            Database database = Database.getDatabase(DetailActivity.this);
+            MovieModel movie = database.movieDAO().getSingleMovie(movieModels[0].getMovieId());
+            return movie;
+        }
+
+        @Override
+        protected void onPostExecute(MovieModel movieModel) {
+            super.onPostExecute(movieModel);
+            if (clicked){
+                if (movieModel != null){
+                    unmarkFavorite(mMovieModel);
+                    heartButton.setImageResource(R.drawable.ic_baseline_favorite_border_24px);
+                } else{
+                    markFavorite(mMovieModel);
+                    heartButton.setImageResource(R.drawable.ic_baseline_favorite_24px);
+                }
+            } else {
+                if (movieModel != null){
+                    heartButton.setImageResource(R.drawable.ic_baseline_favorite_24px);
+                } else {
+                    heartButton.setImageResource(R.drawable.ic_baseline_favorite_border_24px);
+                }
+            }
+        }
     }
 
     private class TrailerTask extends AsyncTask<String, Void, ArrayList<TrailerModel>> {

@@ -1,7 +1,5 @@
 package com.example.android.popularmoviesapp.Util;
 
-import android.util.Log;
-
 import com.example.android.popularmoviesapp.Models.MovieModel;
 import com.example.android.popularmoviesapp.Models.ReviewModel;
 import com.example.android.popularmoviesapp.Models.TrailerModel;
@@ -32,7 +30,7 @@ public class JsonUtils {
         for (int i=0; i < resultsArray.length(); i++){
             JSONObject results = resultsArray.getJSONObject(i);
 
-            int movieID = results.getInt(MOVIE_ID);
+            String movieID = results.getString(MOVIE_ID);
             String originalTitle = results.getString(ORIGINAL_TITLE);
             String overview = results.getString(OVERVIEW);
             String releaseDate = results.getString(RELEASE_DATE);

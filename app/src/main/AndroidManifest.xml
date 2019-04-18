@@ -12,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".Ui.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".Ui.MainActivity">
+        </activity>
         <activity
             android:name=".Ui.DetailActivity"
             android:parentActivityName=".Ui.MainActivity">

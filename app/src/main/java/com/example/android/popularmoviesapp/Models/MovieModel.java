@@ -11,15 +11,16 @@ import androidx.room.PrimaryKey;
 @Entity
 public class MovieModel implements Parcelable {
 
-    @PrimaryKey
-    private int mMovieId;
+    @PrimaryKey(autoGenerate = true)
+    public int listId;
+    private String mMovieId;
     private String mTitle;
     private String mOverview;
     private String mReleaseDate;
     private String mPosterPath;
     private String mVotes;
 
-    public MovieModel(int movieId, String title, String overview, String releaseDate, String posterPath, String votes) {
+    public MovieModel(String movieId, String title, String overview, String releaseDate, String posterPath, String votes) {
         mMovieId = movieId;
         mTitle = title;
         mOverview = overview;
@@ -30,7 +31,7 @@ public class MovieModel implements Parcelable {
 
     @Ignore
     protected MovieModel(Parcel in) {
-        mMovieId = in.readInt();
+        mMovieId = in.readString();
         mTitle = in.readString();
         mOverview = in.readString();
         mReleaseDate = in.readString();
@@ -60,7 +61,7 @@ public class MovieModel implements Parcelable {
     @Ignore
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mMovieId);
+        parcel.writeString(mMovieId);
         parcel.writeString(mTitle);
         parcel.writeString(mOverview);
         parcel.writeString(mReleaseDate);
@@ -69,7 +70,7 @@ public class MovieModel implements Parcelable {
     }
 
 
-    public int getMovieId() {
+    public String getMovieId() {
         return mMovieId;
     }
 
@@ -90,7 +91,7 @@ public class MovieModel implements Parcelable {
     }
 
     public String getVotes() {
-        return mVotes;
+        return mVotes + "/10";
     }
 
 }
