@@ -3,18 +3,23 @@ package com.example.android.popularmoviesapp.Ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmoviesapp.Adapters.ReviewAdapter;
 import com.example.android.popularmoviesapp.Adapters.TrailerAdapter;
 import com.example.android.popularmoviesapp.Constants;
+import com.example.android.popularmoviesapp.Database;
+import com.example.android.popularmoviesapp.FarvoriteMovieWorker;
 import com.example.android.popularmoviesapp.Models.MovieModel;
 import com.example.android.popularmoviesapp.Models.ReviewModel;
 import com.example.android.popularmoviesapp.Models.TrailerModel;
 import com.example.android.popularmoviesapp.R;
 import com.example.android.popularmoviesapp.Util.JsonUtils;
 import com.example.android.popularmoviesapp.Util.NetworkUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
@@ -30,6 +35,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
 
     private MovieModel mMovieModel;
+    private FarvoriteMovieWorker worker = new FarvoriteMovieWorker(this);
 
     @BindView(R.id.movie_title)
     TextView movieName;
@@ -71,6 +77,14 @@ public class DetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
 
         }
+
+    }
+
+    private void markFavorite(MovieModel movie){
+        worker.insertFavMovie(movie);
+    }
+    private void unmarkFavorite(MovieModel movie){
+        worker.deleteFavMovie(movie);
     }
 
     private class TrailerTask extends AsyncTask<String, Void, ArrayList<TrailerModel>> {
@@ -118,5 +132,7 @@ public class DetailActivity extends AppCompatActivity {
 
         }
     }
+
+
 }
 

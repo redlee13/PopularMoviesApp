@@ -34,12 +34,16 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.gridlayout:gridlayout:1.0.0-beta01'
     implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
-    def room_version = "2.1.0-alpha06"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    implementation 'androidx.room:room-runtime:2.0.0-beta01'
+    annotationProcessor 'androidx.room:room-compiler:2.0.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0-beta01'
+
     def butter_ver = "10.1.0"
     implementation "com.jakewharton:butterknife:$butter_ver"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butter_ver"
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.android.material:material:1.0.0'
 }

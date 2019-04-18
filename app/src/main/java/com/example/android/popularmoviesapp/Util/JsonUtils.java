@@ -37,7 +37,7 @@ public class JsonUtils {
             String overview = results.getString(OVERVIEW);
             String releaseDate = results.getString(RELEASE_DATE);
             String posterPath = results.getString(POSTER_PATH);
-            double voteAverage = results.getDouble(VOTE_AVERAGE);
+            String voteAverage = results.getString(VOTE_AVERAGE);
 
             MovieModel movieModel = new MovieModel(movieID, originalTitle, overview, releaseDate, posterPath, voteAverage);
             movieModelList.add(movieModel);

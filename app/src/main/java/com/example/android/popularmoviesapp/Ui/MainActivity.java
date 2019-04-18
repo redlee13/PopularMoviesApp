@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.example.android.popularmoviesapp.Constants;
 import com.example.android.popularmoviesapp.GridAutofitLayoutManager;
+import com.example.android.popularmoviesapp.MovieViewModel;
 import com.example.android.popularmoviesapp.Util.JsonUtils;
 import com.example.android.popularmoviesapp.Models.MovieModel;
 import com.example.android.popularmoviesapp.Adapters.MovieAdapter;
@@ -17,8 +18,11 @@ import com.example.android.popularmoviesapp.R;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -28,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     @BindView(R.id.recycler_view) RecyclerView movieRecyclerGrid;
+    private MovieViewModel viewModel;
+    private List<MovieModel> movieList;
+    private MovieAdapter movieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,20 @@ public class MainActivity extends AppCompatActivity {
 
         movieRecyclerGrid.setLayoutManager(manager);
         new JsonTask().execute();
+
+        viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+    }
+
+    private void favoriteLoader(){
+        viewModel.getMovies(true, null).observe(this, new Observer<List<MovieModel>>() {
+            @Override
+            public void onChanged(List<MovieModel> movieModels) {
+                movieList.clear();
+                movieList.addAll(movieModels);
+                movieAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     @Override
@@ -69,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.previous_page:
                 NetworkUtils.displayPage--;
+                break;
+            case R.id.favorites:
+                favoriteLoader();
                 break;
         }
         Log.d(TAG, "onOptionsItemSelected: " + NetworkUtils.displayPage);

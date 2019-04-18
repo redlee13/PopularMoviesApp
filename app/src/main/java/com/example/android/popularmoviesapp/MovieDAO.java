@@ -11,15 +11,15 @@ import androidx.room.Query;
 @Dao
 public interface MovieDAO {
     @Insert
-    public void insertMovie(MovieModel movieModel);
+    void insertMovie(MovieModel movieModel);
 
     @Query("DELETE FROM MovieModel WHERE mMovieId =:id")
-    void deleteMovie(String id);
+    void deleteMovie(int id);
 
     @Query("Select * from MovieModel WHERE mMovieId = :id")
-    public MovieModel getSingleMovie (String id);
+    MovieModel getSingleMovie (int id);
 
     @Query("Select * from MovieModel")
-    public List<MovieModel> getAllMovies();
+    List<MovieModel> getAllMovies();
 
 }

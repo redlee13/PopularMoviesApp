@@ -11,7 +11,13 @@
         android:title="@string/highest_rated"
         app:showAsAction="never"
         android:orderInCategory="2"/>
+    <item
+        android:id="@+id/favorites"
+        android:title="@string/favorites"
+        app:showAsAction="never"
+        android:orderInCategory="3"/>
     <group
+        android:orderInCategory="4"
         >
         <item
             android:id="@+id/next_page"
