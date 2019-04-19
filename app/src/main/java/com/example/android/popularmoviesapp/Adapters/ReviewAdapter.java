@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.popularmoviesapp.R;
 import com.example.android.popularmoviesapp.Models.ReviewModel;
+import com.example.android.popularmoviesapp.R;
 
 import java.util.ArrayList;
 
@@ -17,8 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
-    private ArrayList<ReviewModel> mReviewModelArrayList;
     Context context;
+    private ArrayList<ReviewModel> mReviewModelArrayList;
 
     public ReviewAdapter(Context context, ArrayList<ReviewModel> reviewModels) {
         this.mReviewModelArrayList = reviewModels;
@@ -45,8 +45,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_author) TextView mAuthorTextView;
-        @BindView(R.id.tv_contents) TextView mContentsTextView;
+        @BindView(R.id.tv_author)
+        TextView mAuthorTextView;
+        @BindView(R.id.tv_contents)
+        TextView mContentsTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

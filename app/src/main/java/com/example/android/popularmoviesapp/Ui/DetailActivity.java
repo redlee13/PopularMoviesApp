@@ -32,11 +32,6 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
-
-    private MovieModel mMovieModel;
-    private FarvoriteMovieWorker worker = new FarvoriteMovieWorker(this);
-    private Boolean clicked = false;
-
     @BindView(R.id.movie_title)
     TextView movieName;
     @BindView(R.id.release_date)
@@ -53,6 +48,9 @@ public class DetailActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     @BindView(R.id.floatingActionButton)
     FloatingActionButton heartButton;
+    private MovieModel mMovieModel;
+    private FarvoriteMovieWorker worker = new FarvoriteMovieWorker(this);
+    private Boolean clicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager1);
 
         new TrailerTask().execute(mMovieModel.getMovieId() + "");
-        new ReviewTask().execute(mMovieModel.getMovieId()+ "");
+        new ReviewTask().execute(mMovieModel.getMovieId() + "");
 
         heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,14 +83,15 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    private void markFavorite(MovieModel movie){
+    private void markFavorite(MovieModel movie) {
         worker.insertFavMovie(movie);
     }
-    private void unmarkFavorite(MovieModel movie){
+
+    private void unmarkFavorite(MovieModel movie) {
         worker.deleteFavMovie(movie);
     }
 
-    private class SingleMovieTask extends AsyncTask<MovieModel, Void, MovieModel>{
+    private class SingleMovieTask extends AsyncTask<MovieModel, Void, MovieModel> {
         @Override
         protected MovieModel doInBackground(MovieModel... movieModels) {
             Database database = Database.getDatabase(DetailActivity.this);
@@ -101,18 +100,17 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(MovieModel movieModel) {
-            super.onPostExecute(movieModel);
-            if (clicked){
-                if (movieModel != null){
+        protected void onPostExecute(MovieModel movie) {
+            if (clicked) {
+                if (movie != null) {
                     unmarkFavorite(mMovieModel);
                     heartButton.setImageResource(R.drawable.ic_baseline_favorite_border_24px);
-                } else{
+                } else {
                     markFavorite(mMovieModel);
                     heartButton.setImageResource(R.drawable.ic_baseline_favorite_24px);
                 }
             } else {
-                if (movieModel != null){
+                if (movie != null) {
                     heartButton.setImageResource(R.drawable.ic_baseline_favorite_24px);
                 } else {
                     heartButton.setImageResource(R.drawable.ic_baseline_favorite_border_24px);
@@ -159,7 +157,7 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<ReviewModel> reviewModels) {
-            if (reviewModels != null){
+            if (reviewModels != null) {
                 ReviewAdapter adapter = new ReviewAdapter(DetailActivity.this, reviewModels);
                 mRecyclerView.setAdapter(adapter);
             }

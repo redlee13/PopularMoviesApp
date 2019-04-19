@@ -21,8 +21,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    private ArrayList<MovieModel> mMovieModelData;
     Context context;
+    private ArrayList<MovieModel> mMovieModelData;
 
     public MovieAdapter(Context context, ArrayList<MovieModel> movieModelData) {
         this.mMovieModelData = movieModelData;
@@ -48,7 +48,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_recycler_item) ImageView mImageView;
+        @BindView(R.id.iv_recycler_item)
+        ImageView mImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

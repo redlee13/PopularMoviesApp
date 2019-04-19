@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.popularmoviesapp.Adapters.MovieAdapter;
+import com.example.android.popularmoviesapp.Constants;
 import com.example.android.popularmoviesapp.GridAutofitLayoutManager;
 import com.example.android.popularmoviesapp.Models.MovieModel;
 import com.example.android.popularmoviesapp.MovieViewModel;
@@ -34,10 +35,12 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    @BindView(R.id.recycler_view) RecyclerView movieRecyclerGrid;
+    @BindView(R.id.recycler_view)
+    RecyclerView movieRecyclerGrid;
     MovieViewModel viewModel;
     private ArrayList<MovieModel> movieList;
     private MovieAdapter movieAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,42 +50,15 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         GridLayoutManager manager = new GridAutofitLayoutManager(this, 540);
-
         movieRecyclerGrid.setLayoutManager(manager);
-        new JsonTask().execute();
 
         movieList = new ArrayList<>();
-        movieAdapter = new MovieAdapter(this , movieList);
+        movieAdapter = new MovieAdapter(this, movieList);
         movieRecyclerGrid.setAdapter(movieAdapter);
 
         viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
 
-        if (getSort().equals(getString(R.string.pref_fav))) {
-
-            viewModel.getMovies(true, null).observe(this, new Observer<List<MovieModel>>() {
-                @Override
-                public void onChanged(@Nullable List<MovieModel> movieModels) {
-                    movieList.clear();
-
-                    if (movieModels != null) {
-                        movieList.addAll(movieModels);
-                        movieAdapter.notifyDataSetChanged();
-                    }
-                }
-            });
-
-        } else {
-            viewModel.getMovies(false, NetworkUtils.buildUrl()).observe(this, new Observer<List<MovieModel>>() {
-                @Override
-                public void onChanged(@Nullable List<MovieModel> movieModels) {
-                    movieList.clear();
-                    movieList.addAll(movieModels);
-                    movieAdapter.notifyDataSetChanged();
-                }
-            });
-
-        }
-
+        listLoader();
     }
 
     @Override
@@ -100,18 +76,66 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.next_page:
                 NetworkUtils.displayPage++;
+                new JsonTask().execute();
                 break;
             case R.id.previous_page:
                 NetworkUtils.displayPage--;
+                new JsonTask().execute();
                 break;
             case R.id.settings:
                 startActivity(new Intent(this, SettingsActivity.class));
         }
         Log.d(TAG, "onOptionsItemSelected: " + NetworkUtils.displayPage);
         return true;
+    }
+
+    private String getSort() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString(getString(R.string.sort_by_key), getString(R.string.pref_popular));
+    }
+
+    private void listLoader() {
+        if (getSort().equals(getString(R.string.pref_fav))) {
+            viewModel.getMovies(true, null).observe(this, new Observer<List<MovieModel>>() {
+                @Override
+                public void onChanged(@Nullable List<MovieModel> movieModels) {
+                    movieList.clear();
+
+                    if (movieModels != null) {
+                        movieList.addAll(movieModels);
+                        movieAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+
+        } else if (getSort().equals(getString(R.string.pref_popular))) {
+            NetworkUtils.displayPage = 1;
+            NetworkUtils.baseUrl = Constants.BASE_URL_POPULAR;
+            viewModel.getMovies(false, NetworkUtils.buildUrl()).observe(this, new Observer<List<MovieModel>>() {
+                @Override
+                public void onChanged(List<MovieModel> movieModels) {
+                    movieList.clear();
+                    movieList.addAll(movieModels);
+                    movieAdapter.notifyDataSetChanged();
+                }
+            });
+
+        } else {
+            NetworkUtils.displayPage = 1;
+            NetworkUtils.baseUrl = Constants.BASE_URL_TOP_RATED;
+            viewModel.getMovies(false, NetworkUtils.buildUrl()).observe(this, new Observer<List<MovieModel>>() {
+                @Override
+                public void onChanged(List<MovieModel> movieModels) {
+                    movieList.clear();
+                    movieList.addAll(movieModels);
+                    movieAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
     }
 
     private class JsonTask extends AsyncTask<String, Void, ArrayList<MovieModel>> {
@@ -124,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 String response = NetworkUtils.getResponseFromHttpUrl(url);
                 return JsonUtils.getJsonMovieList(response);
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
@@ -132,16 +156,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<MovieModel> json) {
-            if (json != null){
+            if (json != null) {
                 MovieAdapter movieAdapter = new MovieAdapter(MainActivity.this, json);
                 movieRecyclerGrid.setAdapter(movieAdapter);
             }
         }
-    }
-
-    private String getSort(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getString(getString(R.string.sort_by_key), getString(R.string.pref_popular));
     }
 
 }

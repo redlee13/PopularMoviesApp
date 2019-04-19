@@ -17,12 +17,12 @@
 <androidx.preference.PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <ListPreference
-            app:defaultValue="@string/pref_popular"
-            app:entries="@array/sort_by_entries"
-            app:entryValues="@array/sort_by_values"
-            app:key="@string/sort_by_key"
-            app:title="@string/sort_by"
-            app:useSimpleSummaryProvider="true"/>
+    <ListPreference
+        app:defaultValue="@string/pref_popular"
+        app:entries="@array/sort_by_entries"
+        app:entryValues="@array/sort_by_values"
+        app:key="@string/sort_by_key"
+        app:title="@string/sort_by"
+        app:useSimpleSummaryProvider="true"/>
 
 </androidx.preference.PreferenceScreen>

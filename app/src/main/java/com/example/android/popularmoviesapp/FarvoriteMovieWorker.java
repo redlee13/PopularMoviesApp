@@ -13,20 +13,20 @@ public class FarvoriteMovieWorker {
         database = Database.getDatabase(context);
     }
 
-    public void insertFavMovie (MovieModel movie){
+    public void insertFavMovie(MovieModel movie) {
         setAsFavorite = true;
         new FavoriteTask().execute(movie);
     }
 
-    public void deleteFavMovie(MovieModel movie){
+    public void deleteFavMovie(MovieModel movie) {
         setAsFavorite = false;
         new FavoriteTask().execute(movie);
     }
 
-    private class FavoriteTask extends AsyncTask<MovieModel, Void, Void>{
+    private class FavoriteTask extends AsyncTask<MovieModel, Void, Void> {
         @Override
         protected Void doInBackground(MovieModel... movieModels) {
-            if (setAsFavorite){
+            if (setAsFavorite) {
                 database.movieDAO().insertMovie(movieModels[0]);
             } else {
                 database.movieDAO().deleteMovie(movieModels[0].getMovieId());

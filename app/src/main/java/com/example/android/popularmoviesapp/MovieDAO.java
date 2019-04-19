@@ -17,7 +17,7 @@ public interface MovieDAO {
     void deleteMovie(String id);
 
     @Query("Select * from MovieModel WHERE mMovieId = :id")
-    MovieModel getSingleMovie (String id);
+    MovieModel getSingleMovie(String id);
 
     @Query("Select * from MovieModel")
     List<MovieModel> getAllMovies();

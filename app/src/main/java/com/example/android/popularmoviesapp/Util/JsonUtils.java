@@ -27,7 +27,7 @@ public class JsonUtils {
         JSONObject movieJson = new JSONObject(jsonMovieString);
         JSONArray resultsArray = movieJson.getJSONArray(RESULTS);
         ArrayList<MovieModel> movieModelList = new ArrayList<>();
-        for (int i=0; i < resultsArray.length(); i++){
+        for (int i = 0; i < resultsArray.length(); i++) {
             JSONObject results = resultsArray.getJSONObject(i);
 
             String movieID = results.getString(MOVIE_ID);
@@ -45,7 +45,7 @@ public class JsonUtils {
     }
 
     public static ArrayList<TrailerModel> getJsonTrailerList(String jsonTrailerString)
-        throws JSONException{
+            throws JSONException {
         final String RESULTS = "results";
         final String KEY = "key";
         final String NAME = "name";
@@ -53,20 +53,20 @@ public class JsonUtils {
         JSONObject movieJson = new JSONObject(jsonTrailerString);
         JSONArray resultsArray = movieJson.getJSONArray(RESULTS);
         ArrayList<TrailerModel> movieVideoList = new ArrayList<>();
-        for (int i=0; i < resultsArray.length(); i++){
+        for (int i = 0; i < resultsArray.length(); i++) {
             JSONObject results = resultsArray.getJSONObject(i);
 
             String videoKey = results.getString(KEY);
             String videoTitle = results.getString(NAME);
 
-            TrailerModel trailerModel = new TrailerModel(videoKey,videoTitle);
+            TrailerModel trailerModel = new TrailerModel(videoKey, videoTitle);
             movieVideoList.add(trailerModel);
         }
         return movieVideoList;
     }
 
     public static ArrayList<ReviewModel> getJsonReviewList(String jsonReviewString)
-            throws JSONException{
+            throws JSONException {
         final String RESULTS = "results";
         final String AUTHOR = "author";
         final String CONTENT = "content";
@@ -74,13 +74,13 @@ public class JsonUtils {
         JSONObject movieJson = new JSONObject(jsonReviewString);
         JSONArray resultsArray = movieJson.getJSONArray(RESULTS);
         ArrayList<ReviewModel> reviews = new ArrayList<>();
-        for (int i=0; i < resultsArray.length(); i++){
+        for (int i = 0; i < resultsArray.length(); i++) {
             JSONObject results = resultsArray.getJSONObject(i);
 
             String author = results.getString(AUTHOR);
             String content = results.getString(CONTENT);
 
-            ReviewModel reviewModel = new ReviewModel(author,content);
+            ReviewModel reviewModel = new ReviewModel(author, content);
             reviews.add(reviewModel);
         }
         return reviews;

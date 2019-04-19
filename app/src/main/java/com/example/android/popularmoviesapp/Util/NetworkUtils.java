@@ -18,22 +18,18 @@ import java.util.Scanner;
  */
 public final class NetworkUtils {
     private static final String TAG = "NetworkUtils";
-
-    public static String baseUrl = Constants.BASE_URL_POPULAR;
-
     /* The API KEY we want to enter */
     private static final String API_KEY = BuildConfig.ApiKey;
     /* The language we want our API to return */
     private static final String language = "en_US";
-    /* The page number we want our API to return */
-    public static int displayPage = 1;
-
     private final static String MOVIE_PARAM = "videos";
     private final static String REVIEW_PARAM = "reviews";
     private final static String API_PARAM = "api_key";
     private final static String LANG_PARAM = "language";
     private final static String PAGE_PARAM = "page";
-
+    public static String baseUrl = Constants.BASE_URL_POPULAR;
+    /* The page number we want our API to return */
+    public static int displayPage = 1;
 
     public static URL buildUrl() {
         Uri builtUri = Uri.parse(baseUrl).buildUpon()
@@ -68,7 +64,8 @@ public final class NetworkUtils {
         Log.v(TAG, "Built URI " + url);
         return url;
     }
-    public static URL buildReviewUrl(String movieID){
+
+    public static URL buildReviewUrl(String movieID) {
         Uri builtUri = Uri.parse(Constants.BASE_URL).buildUpon()
                 .appendPath(movieID)
                 .appendPath(REVIEW_PARAM)

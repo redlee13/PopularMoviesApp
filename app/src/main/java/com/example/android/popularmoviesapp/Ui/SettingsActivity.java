@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
 
-            String selectedSortValue = sharedPreferences.getString(preference.getKey(), getString(R.string.pref_popular));
+            String selectedSortValue = sharedPreferences.getString(preference.getKey(), getString(R.string.pref_fav));
 
             preference.setOnPreferenceChangeListener(this);
 

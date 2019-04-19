@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmoviesapp.Constants;
-import com.example.android.popularmoviesapp.R;
 import com.example.android.popularmoviesapp.Models.TrailerModel;
+import com.example.android.popularmoviesapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
-    private ArrayList<TrailerModel> mTrailerModelData;
     Context context;
+    private ArrayList<TrailerModel> mTrailerModelData;
 
     public TrailerAdapter(Context context, ArrayList<TrailerModel> trailerModelData) {
         this.mTrailerModelData = trailerModelData;
@@ -50,8 +50,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_trailer) ImageView mImageView;
-        @BindView(R.id.tv_trailer_name) TextView mTextView;
+        @BindView(R.id.iv_trailer)
+        ImageView mImageView;
+        @BindView(R.id.tv_trailer_name)
+        TextView mTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

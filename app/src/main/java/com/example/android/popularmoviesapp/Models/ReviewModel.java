@@ -5,14 +5,6 @@ import android.os.Parcelable;
 
 public class ReviewModel implements Parcelable {
 
-    private String mAuthor;
-    private String mContent;
-
-    protected ReviewModel(Parcel in) {
-        mAuthor = in.readString();
-        mContent = in.readString();
-    }
-
     public static final Creator<ReviewModel> CREATOR = new Creator<ReviewModel>() {
         @Override
         public ReviewModel createFromParcel(Parcel in) {
@@ -24,6 +16,18 @@ public class ReviewModel implements Parcelable {
             return new ReviewModel[size];
         }
     };
+    private String mAuthor;
+    private String mContent;
+
+    protected ReviewModel(Parcel in) {
+        mAuthor = in.readString();
+        mContent = in.readString();
+    }
+
+    public ReviewModel(String author, String content) {
+        mAuthor = author;
+        mContent = content;
+    }
 
     public String getAuthor() {
         return mAuthor;
@@ -31,11 +35,6 @@ public class ReviewModel implements Parcelable {
 
     public String getContent() {
         return mContent;
-    }
-
-    public ReviewModel(String author, String content) {
-        mAuthor = author;
-        mContent = content;
     }
 
     @Override
